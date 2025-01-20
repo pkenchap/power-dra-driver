@@ -1,6 +1,10 @@
+---
 version: 2
 updates:
-  - package-ecosystem: "gomod"
-    directory: "/" # Location of package manifests
+  - package-ecosystem: gomod
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
+    labels:
+      - dependencies
+      - skip-changelog
