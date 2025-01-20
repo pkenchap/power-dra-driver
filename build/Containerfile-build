@@ -8,7 +8,7 @@ LABEL release="N/A"
 LABEL summary="Automate the management and monitoring of addition of specific Power devices to a Pod."
 LABEL description="Automate the management and monitoring of addition of specific Power devices to a Pod."
 
-RUN microdnf -y update && microdnf install util-linux findutils -y && microdnf clean all
+RUN microdnf -y update && microdnf clean all
 WORKDIR /
 
 COPY ./build/entrypoint.sh /
