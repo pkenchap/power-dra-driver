@@ -7,3 +7,10 @@ The driver facilitates access to:
 As additional features are made available, the driver will be expanded.
 
 This project is licensed under the Apache 2.0 License.
+
+## References
+1. [Kubernetes: Dynamic Resource Allocation](https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/)
+2. [Kubernetes: Dynamic Resource Allocation example](https://github.com/kubernetes-sigs/dra-example-driver/blob/main/README.md)
+3. [OpenShift Feature Gate: DynamicResourceAllocation](https://docs.openshift.com/container-platform/4.17/nodes/clusters/nodes-cluster-enabling-features.html)
+> Enables a new API for requesting and sharing resources between pods and containers. This is an internal feature that most users do not need to interact with. (DynamicResourceAllocation)
+OpenShift Docs are specific to a use-case
