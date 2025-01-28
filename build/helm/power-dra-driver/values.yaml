@@ -5,11 +5,11 @@ selectorLabelsOverride: {}
 
 allowDefaultNamespace: false
 
-deviceClasses: ["gpu","mig","imex"]
+deviceClasses: ["gpu"]
 
 imagePullSecrets: []
 image:
-  repository: quay.io/jcho0/power-dra-driver:first-test
+  repository: quay.io/jcho0/power-dra-driver
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""

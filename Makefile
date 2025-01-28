@@ -3,7 +3,7 @@ ARCH ?= ppc64le
 
 REGISTRY ?= quay.io/jcho0
 REPOSITORY ?= power-dra-driver
-TAG ?= first-test
+TAG ?= v0.1.0
 
 CONTAINER_RUNTIME ?= $(shell command -v podman 2> /dev/null || echo docker)
 
