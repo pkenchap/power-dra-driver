@@ -11,7 +11,7 @@ LABEL description="Automate the management and monitoring of addition of specifi
 RUN microdnf -y update && microdnf clean all
 WORKDIR /
 
-COPY ./build/entrypoint.sh /
-COPY bin/* /opt/power-dev-plugin/bin/
+COPY ./entrypoint.sh /
+COPY bin/ /opt/power-dev-plugin/bin/
 
 ENTRYPOINT ["/entrypoint.sh"]

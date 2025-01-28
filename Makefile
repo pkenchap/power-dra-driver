@@ -1,18 +1,18 @@
 # This project applies to ppc64le only
 ARCH ?= ppc64le
 
-REGISTRY ?= quay.io/powercloud
+REGISTRY ?= quay.io/jcho0
 REPOSITORY ?= power-dra-driver
-TAG ?= main
+TAG ?= first-test
 
 CONTAINER_RUNTIME ?= $(shell command -v podman 2> /dev/null || echo docker)
 
 ########################################################################
 # Go Targets
 
-.PHONY: build
-build: fmt vet
-	GOOS=linux GOARCH=$(ARCH) go build -o bin/power-dra-driver cmd/power-dra-driver/main.go
+#.PHONY: build
+#build: fmt vet
+#	GOOS=linux GOARCH=$(ARCH) go build -o bin/power-dra-driver cmd/power-dra-driver/main.go
 
 .PHONY: fmt
 fmt:
@@ -34,7 +34,7 @@ clean:
 image: build
 	$(CONTAINER_RUNTIME) buildx build \
 		-t $(REGISTRY)/$(REPOSITORY):$(TAG) \
-		--platform linux/$(ARCH) -f build/Containerfile-build .
+		--platform linux/$(ARCH) -f Dockerfile .
 
 .PHONY: push
 push:
