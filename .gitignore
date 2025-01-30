@@ -1,6 +1,3 @@
-*
-!cdi/*.sh
-
 # But not these files...
 !/.gitignore
 
@@ -15,6 +12,7 @@
 !pkg/webhook/testdata/pod.json
 !manifests/webhook/*.yaml
 !Makefile
+!Dockerfile
 
 # Image
 !build/Containerfile
