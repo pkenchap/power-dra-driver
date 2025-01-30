@@ -1,7 +1,7 @@
 # This project applies to ppc64le only
 ARCH ?= ppc64le
 
-REGISTRY ?= quay.io/jcho0
+REGISTRY ?= quay.io/powercloud
 REPOSITORY ?= power-dra-driver
 TAG ?= v0.1.0
 
