@@ -37,6 +37,15 @@ clean:
 	rm -f ./bin/power-dra-driver
 	rm -rf vendor
 
+BUILDIMAGE_TAG ?= golang$(GOLANG_VERSION)
+BUILDIMAGE ?= $(IMAGE_NAME)-build:$(BUILDIMAGE_TAG)
+
+CMDS := $(patsubst ./cmd/%/,%,$(sort $(dir $(wildcard ./cmd/*/))))
+CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
+
+GOOS ?= linux
+GOARCH ?= ppc64le
+
 CMDS := $(patsubst ./cmd/%/,%,$(sort $(dir $(wildcard ./cmd/*/))))
 CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
 
@@ -48,7 +57,7 @@ cmds: $(CMD_TARGETS)
 $(CMD_TARGETS): cmd-%:
 	CGO_LDFLAGS_ALLOW='-Wl,--unresolved-symbols=ignore-in-object-files' \
 		CC=$(CC) CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH) \
-		go build -ldflags "-s -w -X $(CLI_VERSION_PACKAGE).gitCommit=$(GIT_COMMIT) -X $(CLI_VERSION_PACKAGE).version=$(CLI_VERSION)" $(COMMAND_BUILD_OPTIONS) $(MODULE)/cmd/$(*)
+		go build -ldflags "-s -w -X $(CLI_VERSION_PACKAGE).gitCommit=$(GIT_COMMIT) -X $(CLI_VERSION_PACKAGE).version=$(CLI_VERSION)" $(COMMAND_BUILD_OPTIONS) cmd/$(*)
 
 ########################################################################
 # Container Targets

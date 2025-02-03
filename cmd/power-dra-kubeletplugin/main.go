@@ -17,11 +17,11 @@ limitations under the License.
 package main
 
 import (
-       "context"
-       "fmt"
-       "os"
-       "os/signal"
-       "syscall"
+	"context"
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/urfave/cli/v2"
 
