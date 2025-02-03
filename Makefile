@@ -1,7 +1,7 @@
 # This project applies to ppc64le only
 ARCH ?= ppc64le
 
-REGISTRY ?= quay.io/powercloud
+REGISTRY ?= quay.io/jcho0
 REPOSITORY ?= power-dra-driver
 TAG ?= v0.1.0
 
@@ -10,9 +10,19 @@ CONTAINER_RUNTIME ?= $(shell command -v podman 2> /dev/null || echo docker)
 ########################################################################
 # Go Targets
 
-#.PHONY: build
-#build: fmt vet
-#	GOOS=linux GOARCH=$(ARCH) go build -o bin/power-dra-driver cmd/power-dra-driver/main.go
+build: fmt vet
+	GOOS=linux GOARCH=$(ARCH) go build -o bin/power-dra-driver cmd/power-dra-driver/main.go
+
+controller-gen: ## Download controller-gen locally if necessary.
+ifeq (, $(shell which controller-gen))
+	go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.14.0
+CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
+else
+CONTROLLER_GEN=$(shell which controller-gen)
+endif
+
+generate: controller-gen
+	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./..."
 
 .PHONY: fmt
 fmt:
@@ -27,27 +37,38 @@ clean:
 	rm -f ./bin/power-dra-driver
 	rm -rf vendor
 
+BUILDIMAGE_TAG ?= golang$(GOLANG_VERSION)
+BUILDIMAGE ?= $(IMAGE_NAME)-build:$(BUILDIMAGE_TAG)
+
+CMDS := $(patsubst ./cmd/%/,%,$(sort $(dir $(wildcard ./cmd/*/))))
+CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
+
+GOOS ?= linux
+GOARCH ?= ppc64le
+
+CMDS := $(patsubst ./cmd/%/,%,$(sort $(dir $(wildcard ./cmd/*/))))
+CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
+
+binaries: cmds
+ifneq ($(PREFIX),)
+cmd-%: COMMAND_BUILD_OPTIONS = -o $(PREFIX)/$(*)
+endif
+cmds: $(CMD_TARGETS)
+$(CMD_TARGETS): cmd-%:
+	CGO_LDFLAGS_ALLOW='-Wl,--unresolved-symbols=ignore-in-object-files' \
+		CC=$(CC) CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH) \
+		go build -ldflags "-s -w -X $(CLI_VERSION_PACKAGE).gitCommit=$(GIT_COMMIT) -X $(CLI_VERSION_PACKAGE).version=$(CLI_VERSION)" $(COMMAND_BUILD_OPTIONS) cmd/$(*)
+
 ########################################################################
 # Container Targets
 
-.PHONY: image
-image: build
+.PHONY: image-build
+image-build: image-build
 	$(CONTAINER_RUNTIME) buildx build \
 		-t $(REGISTRY)/$(REPOSITORY):$(TAG) \
 		--platform linux/$(ARCH) -f Dockerfile .
 
-.PHONY: push
-push:
+.PHONY: image-push
+image-push:
 	$(info push Container image...)
 	$(CONTAINER_RUNTIME) push $(REGISTRY)/$(REPOSITORY):$(TAG)
-
-########################################################################
-# Deployment Targets
-
-.PHONY: dep-plugin
-dep-plugin:
-	kustomize build manifests | oc apply -f -
-
-.PHONY: dep-examples
-dep-examples:
-	kustomize build examples | oc apply -f -
