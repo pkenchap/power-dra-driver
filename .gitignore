@@ -1,6 +1,8 @@
 # But not these files...
 !/.gitignore
 
+bin
+
 !*.go
 !go.sum
 !go.mod
