@@ -38,7 +38,7 @@ jobs:
 
       - name: Build the binaries
         run: |
-          GOOS=linux GOARCH=ppc64le go build -o bin/power-dev-plugin-ppc64le cmd/power-dev-plugin/main.go
+          GOOS=linux GOARCH=ppc64le go build -o power-dra-kubeletplugin cmd/power-dra-kubeletplugin/main.go
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
