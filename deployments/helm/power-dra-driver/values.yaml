@@ -9,10 +9,10 @@ deviceClasses: ["gpu"]
 
 imagePullSecrets: []
 image:
-  repository: quay.io/jcho0/power-dra-driver
+  repository: quay.io/powercloud/power-dra-driver
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "main"
 
 serviceAccount:
   # Specifies whether a service account should be created
