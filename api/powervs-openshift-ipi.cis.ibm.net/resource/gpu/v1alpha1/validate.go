@@ -40,7 +40,7 @@ func (d TimeSliceInterval) Validate() error {
 
 // Validate ensures that TimeSlicingConfig has a valid set of values.
 func (c *TimeSlicingConfig) Validate() error {
-	return c.Interval.Validate()
+        return c.Interval.Validate()
 }
 
 // Validate ensures that SpacePartitioningConfig has a valid set of values.
@@ -67,8 +67,8 @@ func (s *GpuSharing) Validate() error {
 
 // Validate ensures that GpuConfig has a valid set of values.
 func (c *GpuConfig) Validate() error {
-	if c.Sharing == nil {
-		return fmt.Errorf("no sharing strategy set")
-	}
-	return c.Sharing.Validate()
+        if c.Sharing == nil {
+                return fmt.Errorf("no sharing strategy set")
+        }
+        return c.Sharing.Validate()
 }

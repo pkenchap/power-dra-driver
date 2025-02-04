@@ -1,7 +1,9 @@
 # But not these files...
 !/.gitignore
 
+#binaries
 bin
+power-dra-kubeletplugin
 
 !*.go
 !go.sum

@@ -29,4 +29,4 @@ LABEL release="N/A"
 LABEL summary="Automate the management and monitoring of addition of specific Power devices to a Pod."
 LABEL description="Automate the management and monitoring of addition of specific Power devices to a Pod."
 
-COPY test-kubeletplugin /usr/bin/power-dra-kubeletplugin
+COPY power-dra-kubeletplugin /usr/bin/power-dra-kubeletplugin

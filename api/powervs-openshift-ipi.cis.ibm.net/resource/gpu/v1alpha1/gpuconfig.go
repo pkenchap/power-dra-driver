@@ -20,7 +20,6 @@ import (
 	"fmt"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/utils/ptr"
 )
 
 // +genclient
@@ -42,7 +41,7 @@ func DefaultGpuConfig() *GpuConfig {
 		Sharing: &GpuSharing{
 			Strategy: TimeSlicingStrategy,
 			TimeSlicingConfig: &TimeSlicingConfig{
-				Interval: ptr.To(DefaultTimeSlice),
+				Interval: "Default",
 			},
 		},
 	}
@@ -69,12 +68,4 @@ func (c *GpuConfig) Normalize() error {
 		}
 	}
 	return nil
-}
-
-// Validate ensures that GpuConfig has a valid set of values.
-func (c *GpuConfig) Validate() error {
-	if c.Sharing == nil {
-		return fmt.Errorf("no sharing strategy set")
-	}
-	return c.Sharing.Validate()
 }

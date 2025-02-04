@@ -1,11 +1,13 @@
 # This project applies to ppc64le only
 ARCH ?= ppc64le
 
-REGISTRY ?= quay.io/jcho0
+REGISTRY ?= quay.io/powercloud
 REPOSITORY ?= power-dra-driver
 TAG ?= v0.1.0
 
 CONTAINER_RUNTIME ?= $(shell command -v podman 2> /dev/null || echo docker)
+
+include $(CURDIR)/versions.mk
 
 ########################################################################
 # Go Targets
@@ -45,6 +47,12 @@ CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
 
 GOOS ?= linux
 GOARCH ?= ppc64le
+ifeq ($(VERSION),)
+CLI_VERSION = $(LIB_VERSION)$(if $(LIB_TAG),-$(LIB_TAG))
+else
+CLI_VERSION = $(VERSION)
+endif
+CLI_VERSION_PACKAGE = $(MODULE)/internal/info
 
 CMDS := $(patsubst ./cmd/%/,%,$(sort $(dir $(wildcard ./cmd/*/))))
 CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
@@ -57,7 +65,7 @@ cmds: $(CMD_TARGETS)
 $(CMD_TARGETS): cmd-%:
 	CGO_LDFLAGS_ALLOW='-Wl,--unresolved-symbols=ignore-in-object-files' \
 		CC=$(CC) CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH) \
-		go build -ldflags "-s -w -X $(CLI_VERSION_PACKAGE).gitCommit=$(GIT_COMMIT) -X $(CLI_VERSION_PACKAGE).version=$(CLI_VERSION)" $(COMMAND_BUILD_OPTIONS) cmd/$(*)
+		go build -ldflags "-s -w -X $(CLI_VERSION_PACKAGE).gitCommit=$(GIT_COMMIT) -X $(CLI_VERSION_PACKAGE).version=$(VERSION)" $(COMMAND_BUILD_OPTIONS) $(MODULE)/cmd/$(*)
 
 ########################################################################
 # Container Targets
