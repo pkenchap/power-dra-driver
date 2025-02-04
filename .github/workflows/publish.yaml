@@ -38,7 +38,7 @@ jobs:
 
       - name: Build the binaries
         run: |
-          GOOS=linux GOARCH=ppc64le go build -o power-dra-kubeletplugin cmd/power-dra-kubeletplugin/main.go
+          GOOS=linux GOARCH=ppc64le go build -ldflags "-s -w -X github.com/IBM/power-dra-driver/internal/info.gitCommit=925234afaa3bab9fdb64adb8f14b3957df3c7cac-dirty -X github.com/IBM/power-dra-driver/internal/info.version=v0.1.0"  github.com/IBM/power-dra-driver/cmd/power-dra-kubeletplugin
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
@@ -78,7 +78,7 @@ jobs:
         with:
           context: .
           platforms: linux/ppc64le
-          file: build/Containerfile-build
+          file: Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
