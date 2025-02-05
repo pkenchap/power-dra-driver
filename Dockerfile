@@ -15,10 +15,6 @@ COPY . .
 RUN pwd
 RUN ls -l
 
-
-#RUN mkdir /artifacts
-#RUN make PREFIX=/artifacts cmds
-
 FROM registry.access.redhat.com/ubi9/ubi-minimal:9.4
 
 LABEL io.k8s.display-name="IBM Power DRA Driver"
