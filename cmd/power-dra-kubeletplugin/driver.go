@@ -25,7 +25,7 @@ import (
 	"k8s.io/dynamic-resource-allocation/kubeletplugin"
 	"k8s.io/klog/v2"
 
-	drapbv1 "k8s.io/kubelet/pkg/apis/dra/v1alpha4"
+	drapbv1 "k8s.io/kubelet/pkg/apis/dra/v1beta1"
 )
 
 var _ drapbv1.DRAPluginServer = &driver{}
