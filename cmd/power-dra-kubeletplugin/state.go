@@ -23,7 +23,7 @@ import (
 
 	resourceapi "k8s.io/api/resource/v1alpha3"
 	"k8s.io/apimachinery/pkg/runtime"
-	drapbv1 "k8s.io/kubelet/pkg/apis/dra/v1alpha3"
+	drapbv1 "k8s.io/kubelet/pkg/apis/dra/v1alpha4"
 	"k8s.io/kubernetes/pkg/kubelet/checkpointmanager"
 
 	configapi "github.com/IBM/power-dra-driver/api/powervs-openshift-ipi.cis.ibm.net/resource/gpu/v1alpha1"
