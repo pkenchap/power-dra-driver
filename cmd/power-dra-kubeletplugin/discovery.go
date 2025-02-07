@@ -51,7 +51,7 @@ func enumerateAllPossibleDevices(numGPUs int) (AllocatableDevices, error) {
 						VersionValue: ptr.To("0.1.0"),
 					},
 				},
-				Capacity: map[resourceapi.QualifiedName]resourceapi.DeviceCapacity{
+				Capacity: map[resourceapi.QualifiedName]resourceapi.DeviceConfiguration{
 					"memory": {
 						Value: resource.MustParse("80Gi"),
 					},
