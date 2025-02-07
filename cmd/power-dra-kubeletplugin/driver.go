@@ -24,6 +24,7 @@ import (
 	coreclientset "k8s.io/client-go/kubernetes"
 	"k8s.io/dynamic-resource-allocation/kubeletplugin"
 	"k8s.io/klog/v2"
+	resourceapi "k8s.io/api/resource/v1alpha3"
 
 	drapbv1 "k8s.io/kubelet/pkg/apis/dra/v1beta1"
 )
@@ -89,7 +90,7 @@ func (d *driver) NodePrepareResources(ctx context.Context, req *drapbv1.NodePrep
 	return preparedResources, nil
 }
 
-func (d *driver) nodePrepareResource(ctx context.Context, claim *resourcev1alpha3.ResourceClaim) *drapbv1.NodePrepareResourceResponse {
+func (d *driver) nodePrepareResource(ctx context.Context, claim *resourceapi.ResourceClaim) *drapbv1.NodePrepareResourceResponse {
 	resourceClaim, err := d.client.ResourceV1apha3().ResourceClaims(claim.Namespace).Get(
 		ctx,
 		claim.Name,
