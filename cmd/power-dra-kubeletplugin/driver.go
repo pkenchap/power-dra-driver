@@ -89,7 +89,7 @@ func (d *driver) NodePrepareResources(ctx context.Context, req *drapbv1.NodePrep
 }
 
 func (d *driver) nodePrepareResource(ctx context.Context, claim *drapbv1.Claim) *drapbv1.NodePrepareResourceResponse {
-	resourceClaim, err := d.client.ResourceV1beta1().ResourceClaims(claim.Namespace).Get(
+	resourceClaim, err := d.client.ResourceV1alpha3().ResourceClaims(claim.Namespace).Get(
 		ctx,
 		claim.Name,
 		metav1.GetOptions{})
