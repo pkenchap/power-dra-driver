@@ -11,7 +11,7 @@ require (
 	k8s.io/apimachinery v0.32.3
 	k8s.io/client-go v0.32.3
 	k8s.io/component-base v0.32.3
-	k8s.io/dynamic-resource-allocation v0.32.0-alpha.1
+	k8s.io/dynamic-resource-allocation v0.32.3
 	k8s.io/klog/v2 v2.130.1
 	k8s.io/kubelet v0.32.3
 	k8s.io/kubernetes v1.32.3
