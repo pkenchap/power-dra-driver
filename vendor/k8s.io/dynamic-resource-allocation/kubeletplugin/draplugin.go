@@ -264,8 +264,8 @@ func Start(ctx context.Context, nodeServer interface{}, opts ...Option) (result 
 	logger := klog.FromContext(ctx)
 	o := options{
 		logger:        klog.Background(),
-		grpcVerbosity: 6, // Logs requests and responses, which can be large.
-		nodeV1alpha3:  true,
+		grpcVerbosity: 100, // Logs requests and responses, which can be large.
+		nodeV1alpha3:  false,
 	}
 	for _, option := range opts {
 		if err := option(&o); err != nil {

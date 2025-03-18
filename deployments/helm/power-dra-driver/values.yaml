@@ -59,4 +59,16 @@ kubeletPlugin:
     plugin:
       securityContext:
         privileged: true
+        capabilities:
+          add:
+            - CAP_SYS_ADMIN
+            - CAP_FOWNER
+            - NET_ADMIN
+            - SYS_ADMIN
+          drop:
+            - ALL
+        runAsUser: 0
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        allowPrivilegeEscalation: true
       resources: {}

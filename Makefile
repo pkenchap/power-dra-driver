@@ -13,7 +13,7 @@ include $(CURDIR)/versions.mk
 # Go Targets
 
 build: fmt vet
-	GOOS=linux GOARCH=$(ARCH) go build -o bin/power-dra-driver cmd/power-dra-driver/main.go
+	GOOS=linux GOARCH=$(ARCH) go build -o bin/power-dra-kubeletplugin cmd/power-dra-kubeletplugin/*.go
 
 controller-gen: ## Download controller-gen locally if necessary.
 ifeq (, $(shell which controller-gen))
@@ -80,3 +80,9 @@ image-build: image-build
 image-push:
 	$(info push Container image...)
 	$(CONTAINER_RUNTIME) push $(REGISTRY)/$(REPOSITORY):$(TAG)
+
+.PHONY: image-ci
+image-ci: build
+	$(CONTAINER_RUNTIME) buildx build \
+		-t $(REGISTRY)/$(REPOSITORY):$(TAG) \
+		--platform linux/$(ARCH) -f build/Containerfile-build .

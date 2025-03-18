@@ -2,8 +2,8 @@
 !/.gitignore
 
 #binaries
-bin
-power-dra-kubeletplugin
+bin/*
+**/power-dra-kubeletplugin*
 
 !*.go
 !go.sum

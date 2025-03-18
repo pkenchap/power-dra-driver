@@ -55,6 +55,10 @@ spec:
         # Simulated number of devices the driver will to have.
         - name: NUM_DEVICES
           value: "8"
+        - name: GRPC_GO_LOG_VERBOSITY_LEVEL
+          value: "99"
+        - name: GRPC_GO_LOG_SEVERITY_LEVEL
+          value: "info"
         volumeMounts:
         - name: plugins-registry
           mountPath: /var/lib/kubelet/plugins_registry
