@@ -24,9 +24,9 @@ import (
 )
 
 const (
-	GroupName     = "gpu.powervs-openshift-ipi.cis.ibm.net"
-	Version       = "v1alpha1"
-	GpuConfigKind = "GpuConfig"
+	GroupName    = "device.power.ibm.com"
+	Version      = "v1alpha1"
+	NxConfigKind = "NxConfig"
 )
 
 // Decoder implements a decoder for objects in this API group.
@@ -43,7 +43,7 @@ func init() {
 		Version: Version,
 	}
 	scheme.AddKnownTypes(schemeGroupVersion,
-		&GpuConfig{},
+		&NxConfig{},
 	)
 	metav1.AddToGroupVersion(scheme, schemeGroupVersion)
 

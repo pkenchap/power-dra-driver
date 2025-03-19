@@ -27,7 +27,7 @@ import (
 
 const (
 	cdiVendor = "k8s." + DriverName
-	cdiClass  = "gpu"
+	cdiClass  = "nx"
 	cdiKind   = cdiVendor + "/" + cdiClass
 
 	cdiCommonDeviceName = "common"
@@ -93,7 +93,7 @@ func (cdi *CDIHandler) CreateClaimSpecFile(claimUID string, devices PreparedDevi
 		claimEdits := cdiapi.ContainerEdits{
 			ContainerEdits: &cdispec.ContainerEdits{
 				Env: []string{
-					fmt.Sprintf("GPU_DEVICE_%s_RESOURCE_CLAIM=%s", device.DeviceName[4:], claimUID),
+					fmt.Sprintf("Nx_DEVICE_%s_RESOURCE_CLAIM=%s", device.DeviceName[4:], claimUID),
 				},
 			},
 		}

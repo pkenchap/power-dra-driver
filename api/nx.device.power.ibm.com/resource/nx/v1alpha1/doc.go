@@ -15,6 +15,6 @@ limitations under the License.
 */
 
 // +k8s:deepcopy-gen=packages
-// +groupName=gpu.powervs-openshift-ipi.cis.ibm.net
+// +groupName=nx.device.power.ibm.com
 
 package v1alpha1

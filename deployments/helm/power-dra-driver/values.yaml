@@ -5,7 +5,7 @@ selectorLabelsOverride: {}
 
 allowDefaultNamespace: false
 
-deviceClasses: ["gpu"]
+deviceClasses: ["nx-device"]
 
 imagePullSecrets: []
 image:

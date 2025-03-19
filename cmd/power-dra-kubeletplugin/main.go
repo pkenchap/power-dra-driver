@@ -32,7 +32,7 @@ import (
 )
 
 const (
-	DriverName = "gpu.powervs-openshift-ipi.cis.ibm.net"
+	DriverName = "nx.device.power.ibm.com"
 
 	PluginRegistrationPath     = "/var/lib/kubelet/plugins/" + DriverName + ".sock"
 	DriverPluginPath           = "/var/lib/kubelet/plugins/" + DriverName

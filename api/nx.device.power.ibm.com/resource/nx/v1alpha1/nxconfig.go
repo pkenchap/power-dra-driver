@@ -25,20 +25,20 @@ import (
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// GpuConfig holds the set of parameters for configuring a GPU.
-type GpuConfig struct {
+// NxConfig holds the set of parameters for configuring a Nest Accelerator.
+type NxConfig struct {
 	metav1.TypeMeta `json:",inline"`
-	Sharing         *GpuSharing `json:"sharing,omitempty"`
+	Sharing         *NxSharing `json:"sharing,omitempty"`
 }
 
-// DefaultGpuConfig provides the default GPU configuration.
-func DefaultGpuConfig() *GpuConfig {
-	return &GpuConfig{
+// DefaultNxConfig provides the default NX configuration.
+func DefaultNxConfig() *NxConfig {
+	return &NxConfig{
 		TypeMeta: metav1.TypeMeta{
 			APIVersion: GroupName + "/" + Version,
-			Kind:       GpuConfigKind,
+			Kind:       NxConfigKind,
 		},
-		Sharing: &GpuSharing{
+		Sharing: &NxSharing{
 			Strategy: TimeSlicingStrategy,
 			TimeSlicingConfig: &TimeSlicingConfig{
 				Interval: "Default",
@@ -47,13 +47,13 @@ func DefaultGpuConfig() *GpuConfig {
 	}
 }
 
-// Normalize updates a GpuConfig config with implied default values based on other settings.
-func (c *GpuConfig) Normalize() error {
+// Normalize updates a NxConfig config with implied default values based on other settings.
+func (c *NxConfig) Normalize() error {
 	if c == nil {
 		return fmt.Errorf("config is 'nil'")
 	}
 	if c.Sharing == nil {
-		c.Sharing = &GpuSharing{
+		c.Sharing = &NxSharing{
 			Strategy: TimeSlicingStrategy,
 		}
 	}

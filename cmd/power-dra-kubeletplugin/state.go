@@ -26,7 +26,7 @@ import (
 	drapbv1 "k8s.io/kubelet/pkg/apis/dra/v1beta1"
 	"k8s.io/kubernetes/pkg/kubelet/checkpointmanager"
 
-	configapi "github.com/IBM/power-dra-driver/api/powervs-openshift-ipi.cis.ibm.net/resource/gpu/v1alpha1"
+	configapi "github.com/IBM/power-dra-driver/api/nx-device.power.ibm.com/resource/nx/v1alpha1"
 
 	cdiapi "tags.cncf.io/container-device-interface/pkg/cdi"
 	cdispec "tags.cncf.io/container-device-interface/specs-go"
@@ -187,12 +187,12 @@ func (s *DeviceState) prepareDevices(claim *resourceapi.ResourceClaim) (Prepared
 		return nil, fmt.Errorf("error getting opaque device configs: %v", err)
 	}
 
-	// Add the default GPU Config to the front of the config list with the
+	// Add the default Nx Config to the front of the config list with the
 	// lowest precedence. This guarantees there will be at least one config in
 	// the list with len(Requests) == 0 for the lookup below.
 	configs = slices.Insert(configs, 0, &OpaqueDeviceConfig{
 		Requests: []string{},
-		Config:   configapi.DefaultGpuConfig(),
+		Config:   configapi.DefaultNxConfig(),
 	})
 
 	// Look through the configs and figure out which one will be applied to
@@ -200,7 +200,7 @@ func (s *DeviceState) prepareDevices(claim *resourceapi.ResourceClaim) (Prepared
 	configResultsMap := make(map[runtime.Object][]*resourceapi.DeviceRequestAllocationResult)
 	for _, result := range claim.Status.Allocation.Devices.Results {
 		if _, exists := s.allocatable[result.Device]; !exists {
-			return nil, fmt.Errorf("requested GPU is not allocatable: %v", result.Device)
+			return nil, fmt.Errorf("requested Nx is not allocatable: %v", result.Device)
 		}
 		for _, c := range slices.Backward(configs) {
 			if len(c.Requests) == 0 || slices.Contains(c.Requests, result.Request) {
@@ -215,10 +215,10 @@ func (s *DeviceState) prepareDevices(claim *resourceapi.ResourceClaim) (Prepared
 	// config to the set of device allocation results.
 	perDeviceCDIContainerEdits := make(PerDeviceCDIContainerEdits)
 	for c, results := range configResultsMap {
-		// Cast the opaque config to a GpuConfig
-		var config *configapi.GpuConfig
+		// Cast the opaque config to a NxConfig
+		var config *configapi.NxConfig
 		switch castConfig := c.(type) {
-		case *configapi.GpuConfig:
+		case *configapi.NxConfig:
 			config = castConfig
 		default:
 			return nil, fmt.Errorf("runtime object is not a regognized configuration")
@@ -226,18 +226,18 @@ func (s *DeviceState) prepareDevices(claim *resourceapi.ResourceClaim) (Prepared
 
 		// Normalize the config to set any implied defaults.
 		if err := config.Normalize(); err != nil {
-			return nil, fmt.Errorf("error normalizing GPU config: %w", err)
+			return nil, fmt.Errorf("error normalizing Nx config: %w", err)
 		}
 
 		// Validate the config to ensure its integrity.
 		if err := config.Validate(); err != nil {
-			return nil, fmt.Errorf("error validating GPU config: %w", err)
+			return nil, fmt.Errorf("error validating Nx config: %w", err)
 		}
 
 		// Apply the config to the list of results associated with it.
 		containerEdits, err := s.applyConfig(config, results)
 		if err != nil {
-			return nil, fmt.Errorf("error applying GPU config: %w", err)
+			return nil, fmt.Errorf("error applying Nx config: %w", err)
 		}
 
 		// Merge any new container edits with the overall per device map.
@@ -271,16 +271,16 @@ func (s *DeviceState) unprepareDevices(claimUID string, devices PreparedDevices)
 	return nil
 }
 
-func (s *DeviceState) applyConfig(config *configapi.GpuConfig, results []*resourceapi.DeviceRequestAllocationResult) (PerDeviceCDIContainerEdits, error) {
+func (s *DeviceState) applyConfig(config *configapi.NxConfig, results []*resourceapi.DeviceRequestAllocationResult) (PerDeviceCDIContainerEdits, error) {
 	perDeviceEdits := make(PerDeviceCDIContainerEdits)
 
 	for _, result := range results {
 		envs := []string{
-			fmt.Sprintf("GPU_DEVICE_%s=%s", result.Device[4:], result.Device),
+			fmt.Sprintf("Nx_DEVICE_%s=%s", result.Device[4:], result.Device),
 		}
 
 		if config.Sharing != nil {
-			envs = append(envs, fmt.Sprintf("GPU_DEVICE_%s_SHARING_STRATEGY=%s", result.Device[4:], config.Sharing.Strategy))
+			envs = append(envs, fmt.Sprintf("Nx_DEVICE_%s_SHARING_STRATEGY=%s", result.Device[4:], config.Sharing.Strategy))
 		}
 
 		switch {
@@ -289,13 +289,13 @@ func (s *DeviceState) applyConfig(config *configapi.GpuConfig, results []*resour
 			if err != nil {
 				return nil, fmt.Errorf("unable to get time slicing config for device %v: %w", result.Device, err)
 			}
-			envs = append(envs, fmt.Sprintf("GPU_DEVICE_%s_TIMESLICE_INTERVAL=%v", result.Device[4:], tsconfig.Interval))
+			envs = append(envs, fmt.Sprintf("Nx_DEVICE_%s_TIMESLICE_INTERVAL=%v", result.Device[4:], tsconfig.Interval))
 		case config.Sharing.IsSpacePartitioning():
 			spconfig, err := config.Sharing.GetSpacePartitioningConfig()
 			if err != nil {
 				return nil, fmt.Errorf("unable to get space partitioning config for device %v: %w", result.Device, err)
 			}
-			envs = append(envs, fmt.Sprintf("GPU_DEVICE_%s_PARTITION_COUNT=%v", result.Device[4:], spconfig.PartitionCount))
+			envs = append(envs, fmt.Sprintf("Nx_DEVICE_%s_PARTITION_COUNT=%v", result.Device[4:], spconfig.PartitionCount))
 		}
 
 		edits := &cdispec.ContainerEdits{

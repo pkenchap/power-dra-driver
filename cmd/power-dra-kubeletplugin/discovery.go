@@ -28,14 +28,14 @@ import (
 	"github.com/google/uuid"
 )
 
-func enumerateAllPossibleDevices(numGPUs int) (AllocatableDevices, error) {
+func enumerateAllPossibleDevices(numNx int) (AllocatableDevices, error) {
 	seed := os.Getenv("NODE_NAME")
-	uuids := generateUUIDs(seed, numGPUs)
+	uuids := generateUUIDs(seed, numNx)
 
 	alldevices := make(AllocatableDevices)
 	for i, uuid := range uuids {
 		device := resourceapi.Device{
-			Name: fmt.Sprintf("gpu-%d", i),
+			Name: fmt.Sprintf("nx-%d", i),
 			Basic: &resourceapi.BasicDevice{
 				Attributes: map[resourceapi.QualifiedName]resourceapi.DeviceAttribute{
 					"index": {
@@ -45,7 +45,7 @@ func enumerateAllPossibleDevices(numGPUs int) (AllocatableDevices, error) {
 						StringValue: ptr.To(uuid),
 					},
 					"model": {
-						StringValue: ptr.To("LATEST-GPU-MODEL"),
+						StringValue: ptr.To("LATEST-NX-MODEL"),
 					},
 					"driverVersion": {
 						VersionValue: ptr.To("0.1.0"),
@@ -71,7 +71,7 @@ func generateUUIDs(seed string, count int) []string {
 		charset := make([]byte, 16)
 		rand.Read(charset)
 		uuid, _ := uuid.FromBytes(charset)
-		uuids[i] = "gpu-" + uuid.String()
+		uuids[i] = "nx-" + uuid.String()
 	}
 
 	return uuids
