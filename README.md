@@ -8,6 +8,30 @@ As additional features are made available, the driver will be expanded.
 
 This project is licensed under the Apache 2.0 License.
 
+## Pre-Requisites
+
+This feature uses DynamicResourceAllocation. To setup, go into the Cluster UI, `Administration` -> `CustomResourceDefinitions` -> `FeatureGate` -> `Instances` -> `cluster` add `spec.featureSet: TechPreviewNoUpgrade`
+
+## Install
+
+```
+helm upgrade -i \
+  --create-namespace \
+  --namespace power-dra-driver \
+  power-dra-driver \
+  deployments/helm/power-dra-driver
+```
+
+## Uninstall
+
+```
+helm uninstall -i \
+  --create-namespace \
+  --namespace power-dra-driver \
+  power-dra-driver \
+  deployments/helm/power-dra-driver
+```
+
 ## References
 1. [Kubernetes: Dynamic Resource Allocation](https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/)
 2. [Kubernetes: Dynamic Resource Allocation example](https://github.com/kubernetes-sigs/dra-example-driver/blob/main/README.md)
