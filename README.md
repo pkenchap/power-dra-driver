@@ -14,6 +14,8 @@ This feature uses DynamicResourceAllocation. To setup, go into the Cluster UI, `
 
 You must have Power10+ nodes to take advantage of the power-dra-driver. It will not allocate nx-gzip access if you are not on a Power10, or if the nx-gzip is some how disabled on the Operating System.
 
+You should also be using an OpenShift Container Platform 4.19+.
+
 ## Install
 
 ```
@@ -40,3 +42,5 @@ helm uninstall -i \
 3. [OpenShift Feature Gate: DynamicResourceAllocation](https://docs.openshift.com/container-platform/4.17/nodes/clusters/nodes-cluster-enabling-features.html)
 > Enables a new API for requesting and sharing resources between pods and containers. This is an internal feature that most users do not need to interact with. (DynamicResourceAllocation)
 OpenShift Docs are specific to a use-case
+
+This code repository is based on [kubernetes-sigs/dra-example-driver](https://github.com/kubernetes-sigs/dra-example-driver) and extends apis used in the example driver.
