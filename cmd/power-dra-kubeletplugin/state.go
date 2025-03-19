@@ -26,7 +26,7 @@ import (
 	drapbv1 "k8s.io/kubelet/pkg/apis/dra/v1beta1"
 	"k8s.io/kubernetes/pkg/kubelet/checkpointmanager"
 
-	configapi "github.com/IBM/power-dra-driver/api/nx-device.power.ibm.com/resource/nx/v1alpha1"
+	configapi "github.com/IBM/power-dra-driver/api/nx.device.power.ibm.com/resource/nx/v1alpha1"
 
 	cdiapi "tags.cncf.io/container-device-interface/pkg/cdi"
 	cdispec "tags.cncf.io/container-device-interface/specs-go"
