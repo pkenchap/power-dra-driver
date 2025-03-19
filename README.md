@@ -12,7 +12,7 @@ This project is licensed under the Apache 2.0 License.
 
 This feature uses DynamicResourceAllocation. To setup, go into the Cluster UI, `Administration` -> `CustomResourceDefinitions` -> `FeatureGate` -> `Instances` -> `cluster` add `spec.featureSet: TechPreviewNoUpgrade`
 
-You must have Power10+ nodes to take advantage of the power-dra-driver. It will not allocate nx-gzip access if you are not on a Power10.
+You must have Power10+ nodes to take advantage of the power-dra-driver. It will not allocate nx-gzip access if you are not on a Power10, or if the nx-gzip is some how disabled on the Operating System.
 
 ## Install
 
