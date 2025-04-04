@@ -78,7 +78,7 @@ spec:
       - name: cdi
         hostPath:
           path: /var/run/cdi
-          type: Directory
+          type: DirectoryOrCreate
       {{- with .Values.kubeletPlugin.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
