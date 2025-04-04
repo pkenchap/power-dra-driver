@@ -2,6 +2,12 @@ FROM registry.access.redhat.com/ubi9/ubi:9.4 as builder
 USER root
 WORKDIR /workspace
 
+# Copy go.mod and go.sum first to cache dependencies
+COPY go.mod go.sum ./
+
+# Now copy the rest of the source code
+COPY . .
+
 # From https://github.com/openshift/oc-mirror/blob/main/Dockerfile#L8C1-L20C2
 # DNF Package Install List
 ARG DNF_LIST="\
