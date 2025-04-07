@@ -5,7 +5,6 @@ WORKDIR /workspace
 # Copy go.mod and go.sum first to cache dependencies
 COPY go.mod go.sum ./
 
-
 # Now copy the rest of the source code
 COPY . .
 
