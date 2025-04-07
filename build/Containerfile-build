@@ -13,5 +13,6 @@ WORKDIR /
 
 COPY ./build/entrypoint.sh /
 COPY bin/* /opt/power-dra/bin/
+RUN chmod +x /opt/power-dra/bin/power-dra-kubeletplugin
 
 ENTRYPOINT ["/entrypoint.sh"]
