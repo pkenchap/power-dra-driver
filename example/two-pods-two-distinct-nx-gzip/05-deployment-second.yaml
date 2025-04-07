@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ex-power-dra-sec
+  name: power-dra-driver-sec
   labels:
-    app: ex-power-dra-sec
+    app: power-dra-driver-sec
 spec:
   selector:
     matchLabels:
-      app: ex-power-dra
+      app: power-dra-driver
   template:
     metadata:
       labels:
-        app: ex-power-dra
+        app: power-dra-driver
     spec:
       serviceAccountName: ex-sa
       containers:
       - name: driver
-        image: quay.io/powercloud/power-dra-driver:latest
+        image: quay.io/powercloud/power-dra-driver:main
         imagePullPolicy: IfNotPresent
         command: [ "/bin/sleep" ]
         args: [ "infinity" ]

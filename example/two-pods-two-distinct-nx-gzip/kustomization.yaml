@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 metadata:
-  name: ex-power-dra
+  name: power-dra-driver
 
-namespace: ex-power-dra
+namespace: power-dra-driver
 
 generatorOptions:
   disableNameSuffixHash: true
