@@ -29,11 +29,7 @@ helm upgrade -i \
 ## Uninstall
 
 ```
-helm uninstall -i \
-  --create-namespace \
-  --namespace power-dra-driver \
-  power-dra-driver \
-  deployments/helm/power-dra-driver
+helm uninstall power-dra-driver -n power-dra-driver
 ```
 
 ## References
