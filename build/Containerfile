@@ -65,6 +65,6 @@ WORKDIR /
 
 # Copy the entrypoint script and the binary from the builder stage
 COPY ./build/entrypoint.sh /
-COPY --from=builder /workspace/bin/power-dra-kubeletplugin /opt/power-dra/bin/
+COPY --from=builder --chmod=755 /workspace/bin/power-dra-kubeletplugin /opt/power-dra/bin/
 
 ENTRYPOINT ["/entrypoint.sh"]
