@@ -3,6 +3,8 @@ kind: DaemonSet
 metadata:
   name: nx-device-plugin
   namespace: kube-system
+  labels:
+    app: nx-device-plugin
 spec:
   selector:
     matchLabels:
@@ -15,6 +17,7 @@ spec:
       containers:
         - name: nx-device-plugin
           image: quay.io/powercloud/power-dra-driver:main
+          imagePullPolicy: IfNotPresent
           securityContext:
             privileged: true
           volumeMounts:
@@ -24,3 +27,4 @@ spec:
         - name: device-plugins
           hostPath:
             path: /var/lib/kubelet/device-plugins
+            type: Directory
