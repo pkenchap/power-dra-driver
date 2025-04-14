@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ex-power-dra-sec
+  name: ex-dra-driver-sec
   labels:
-    app: ex-power-dra-sec
+    app: ex-dra-driver-sec
 spec:
   selector:
     matchLabels:
-      app: ex-power-dra
+      app: ex-dra-driver
   template:
     metadata:
       labels:
-        app: ex-power-dra
+        app: ex-dra-driver
     spec:
       resourceClaims:
       - name: nx-gzip
@@ -32,6 +32,8 @@ spec:
           requests:
             cpu: 100m
             memory: 100Mi
+        serviceAccount: ex-sa
+        serviceAccountName: ex-sa
         securityContext:
           privileged: false
           runAsUser: 1000740022

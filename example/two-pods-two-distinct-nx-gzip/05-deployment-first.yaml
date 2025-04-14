@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ex-power-dra
+  name: ex-dra-driver
   labels:
-    app: ex-power-dra
+    app: ex-dra-driver
 spec:
   selector:
     matchLabels:
-      app: ex-power-dra
+      app: ex-dra-driver
   template:
     metadata:
       labels:
-        app: ex-power-dra
+        app: ex-dra-driver
     spec:
       resourceClaims:
         - name: nx-gzip
