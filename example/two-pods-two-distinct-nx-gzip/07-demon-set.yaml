@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nx-device-plugin
+  namespace: kube-system
+  labels:
+    app: nx-device-plugin
+spec:
+  selector:
+    matchLabels:
+      app: nx-device-plugin
+  template:
+    metadata:
+      labels:
+        app: nx-device-plugin
+    spec:
+      containers:
+        - name: nx-device-plugin
+          image: quay.io/powercloud/power-dra-driver:main
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: device-plugins
+              mountPath: /var/lib/kubelet/device-plugins
+      volumes:
+        - name: device-plugins
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+            type: Directory
