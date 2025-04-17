@@ -20,8 +20,9 @@ spec:
       - name: driver
         image: quay.io/powercloud/power-dra-driver:main
         imagePullPolicy: IfNotPresent
-        command: [ "/bin/sleep" ]
-        args: [ "infinity" ]
+        command: ["/opt/power-dra/bin/power-dra-kubeletplugin"]
+        args:
+          - "--node-name=worker-0"
         resources:
           limits:
             memory: 100Mi
