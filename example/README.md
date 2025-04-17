@@ -8,4 +8,6 @@
 The scenarios are:
 1. `two-pods-two-distinct-nx-gzip` - Two pods, one container each, Each container asking for access to the nx-gzip
 
+2. Run the example demo test using `oc apply -f example/demo/nx-test.yaml`
+
 These examples are inspired by https://github.com/kubernetes-sigs/dra-example-driver/tree/main/demo
