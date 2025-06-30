@@ -32,6 +32,20 @@ helm upgrade \
 helm uninstall power-dra-driver -n power-dra-driver
 ```
 
+## License
+
+All source files must include a Copyright and License header. The SPDX license header is 
+preferred because it can be easily scanned.
+
+If you would like to see the detailed LICENSE click [here](LICENSE).
+
+```text
+#
+# Copyright 2025 - IBM Corporation. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
+```
+
 ## References
 1. [Kubernetes: Dynamic Resource Allocation](https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/)
 2. [Kubernetes: Dynamic Resource Allocation example](https://github.com/kubernetes-sigs/dra-example-driver/blob/main/README.md)
@@ -40,3 +54,9 @@ helm uninstall power-dra-driver -n power-dra-driver
 OpenShift Docs are specific to a use-case
 
 This code repository is based on [kubernetes-sigs/dra-example-driver](https://github.com/kubernetes-sigs/dra-example-driver) and extends apis used in the example driver.
+
+# Support
+
+> Is this a Red Hat or IBM supported solution?
+
+This solution is used to demonstrate accessing the co-processors part of the IBM Power systems. It is a demonstration at this time.
