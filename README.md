@@ -40,10 +40,10 @@ preferred because it can be easily scanned.
 If you would like to see the detailed LICENSE click [here](LICENSE).
 
 ```text
-#
-# Copyright 2025 - IBM Corporation. All rights reserved
-# SPDX-License-Identifier: Apache-2.0
-#
+/*
+ * Copyright 2025 - IBM Corporation. All rights reserved
+ * SPDX-License-Identifier: Apache-2.0
+ */
 ```
 
 ## References
