@@ -7,7 +7,16 @@ TAG ?= v0.1.0
 
 CONTAINER_RUNTIME ?= $(shell command -v podman 2> /dev/null || echo docker)
 
-include $(CURDIR)/versions.mk
+GOLANG_VERSION ?= 1.23.1
+
+DRIVER_NAME := power-dra-driver
+MODULE := github.com/IBM/$(DRIVER_NAME)
+
+REGISTRY ?= quay.io/powercloud/power-dra-driver
+
+VERSION ?= v0.1.0
+
+GIT_COMMIT ?= $(shell git describe --match="" --dirty --long --always --abbrev=40 2> /dev/null || echo "")
 
 ########################################################################
 # Go Targets
