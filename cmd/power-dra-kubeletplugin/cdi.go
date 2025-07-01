@@ -73,28 +73,33 @@ func (cdi *CDIHandler) CreateCommonSpecFile() error {
 func (cdi *CDIHandler) CreateClaimSpecFile(claimUID string, devices PreparedDevices) error {
 	specName := cdiapi.GenerateTransientSpecName(cdiVendor, cdiClass, claimUID)
 
+	// Only one device is used for nx-gzip
+	deviceAdds := []cdispec.Device{
+		cdispec.Device{
+			Name: "crypto/nx-gzip",
+		},
+	}
+
 	spec := &cdispec.Spec{
 		Kind:    cdiKind,
-		Devices: []cdispec.Device{},
+		Devices: deviceAdds,
 	}
 
-	for _, device := range devices {
-		claimEdits := cdiapi.ContainerEdits{
-			ContainerEdits: &cdispec.ContainerEdits{
-				Env: []string{
-					fmt.Sprintf("Nx_DEVICE_%s_RESOURCE_CLAIM=%s", device.DeviceName[4:], claimUID),
-				},
+	claimEdits := cdiapi.ContainerEdits{
+		ContainerEdits: &cdispec.ContainerEdits{
+			Env: []string{
+				"NX_DEVICE_CLAIM=added",
 			},
-		}
-		claimEdits.Append(device.ContainerEdits)
-
-		cdiDevice := cdispec.Device{
-			Name:           fmt.Sprintf("%s-%s", claimUID, device.DeviceName),
-			ContainerEdits: *claimEdits.ContainerEdits,
-		}
-
-		spec.Devices = append(spec.Devices, cdiDevice)
+		},
 	}
+
+	// At this point
+	cdiDevice := cdispec.Device{
+		Name:           fmt.Sprintf("%s-%s", claimUID, "crypto/nx-gzip"),
+		ContainerEdits: *claimEdits.ContainerEdits,
+	}
+
+	spec.Devices = append(spec.Devices, cdiDevice)
 
 	minVersion, err := cdiapi.MinimumRequiredVersion(spec)
 	if err != nil {
