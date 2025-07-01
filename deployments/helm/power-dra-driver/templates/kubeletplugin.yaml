@@ -66,6 +66,8 @@ spec:
           mountPath: /var/lib/kubelet/plugins
         - name: cdi
           mountPath: /var/run/cdi
+        - name: host-sys
+          mountPath: /host-sys
       volumes:
       - name: plugins-registry
         hostPath:
@@ -74,6 +76,10 @@ spec:
       - name: plugins
         hostPath:
           path: /var/lib/kubelet/plugins
+          type: Directory
+      - name: host-sys
+        hostPath:
+          path: /sys
           type: Directory
       - name: cdi
         hostPath:

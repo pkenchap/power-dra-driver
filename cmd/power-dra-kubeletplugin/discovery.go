@@ -10,18 +10,24 @@ import (
 	"math/rand"
 	"os"
 
+	"github.com/google/uuid"
 	resourceapi "k8s.io/api/resource/v1beta1"
 	"k8s.io/apimachinery/pkg/api/resource"
+	"k8s.io/klog/v2"
 	"k8s.io/utils/ptr"
-
-	"github.com/google/uuid"
 )
+
+const NXGZIPCAPS = "/host-sys/devices/vio/ibm,compression-v1/nx_gzip_caps"
 
 func enumerateAllPossibleDevices(numNx int) (AllocatableDevices, error) {
 	seed := os.Getenv("NODE_NAME")
 	uuids := generateUUIDs(seed, numNx)
-
 	alldevices := make(AllocatableDevices)
+	if !existsNxGzip() {
+		// If nx-gzip doesn't exist, then don't return any devices.
+		return alldevices, nil
+	}
+
 	for i, uuid := range uuids {
 		device := resourceapi.Device{
 			Name: fmt.Sprintf("nx-%d", i),
@@ -72,4 +78,14 @@ func hash(s string) int64 {
 		h = 31*h + int64(c)
 	}
 	return h
+}
+
+// Detect NXGZIPCAPS exists
+func existsNxGzip() bool {
+	_, err := os.Stat(NXGZIPCAPS)
+	if err != nil {
+		klog.V(5).ErrorS(err, "Failed to detect Nest Accelerator nx-gzip feature")
+		return false
+	}
+	return true
 }
