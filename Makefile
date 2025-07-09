@@ -1,5 +1,5 @@
 # This project applies to ppc64le only
-ARCH ?= ppc64le
+ARCH ?= "ppc64le"
 
 REGISTRY ?= quay.io/powercloud
 REPOSITORY ?= power-dra-driver
@@ -19,10 +19,11 @@ VERSION ?= v0.1.0
 GIT_COMMIT ?= $(shell git describe --match="" --dirty --long --always --abbrev=40 2> /dev/null || echo "")
 
 # Kind configuration
-KIND_IMAGE?= docker.io/kindest/node:latest
-ifeq ((arch),ppc64le)
-  KIND_IMAGE=quay.io/powercloud/kind-node:v1.33.1
+KIND_IMAGE ?= docker.io/kindest/node:latest
+ifeq ($(ARCH),"ppc64le")
+  KIND_IMAGE := quay.io/powercloud/kind-node:v1.33.1
 endif
+
 KIND_CLUSTER_NAME:="power-dra-driver-cluster"
 KIND_CLUSTER_CONFIG_PATH:="hack/kind-cluster-config.yaml"
 KIND_EXPERIMENTAL_PROVIDER:="podman"
@@ -106,7 +107,7 @@ dev-setup: dev-install-kind
 		--config $(KIND_CLUSTER_CONFIG_PATH) \
 		--wait 5m
 
-.PHONY: dev-clean
+.PHONY: dev-teardown
 dev-teardown:
 	dev-cache/kind delete cluster \
 		--name $(KIND_CLUSTER_NAME)
