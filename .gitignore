@@ -5,6 +5,9 @@
 bin/*
 **/power-dra-kubeletplugin*
 
+dev-cache/** */
+dev-cache/kind
+
 !*.go
 !go.sum
 !go.mod

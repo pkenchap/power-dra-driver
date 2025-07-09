@@ -18,12 +18,22 @@ VERSION ?= v0.1.0
 
 GIT_COMMIT ?= $(shell git describe --match="" --dirty --long --always --abbrev=40 2> /dev/null || echo "")
 
+# Kind configuration
+KIND_IMAGE?= docker.io/kindest/node:latest
+ifeq ((arch),ppc64le)
+  KIND_IMAGE=quay.io/powercloud/kind-node:v1.33.1
+endif
+KIND_CLUSTER_NAME:="power-dra-driver-cluster"
+KIND_CLUSTER_CONFIG_PATH:="hack/kind-cluster-config.yaml"
+KIND_EXPERIMENTAL_PROVIDER:="podman"
+
 ########################################################################
 # Go Targets
-
+.PHONY: build
 build: fmt vet
 	GOOS=linux GOARCH=$(ARCH) go build -o bin/power-dra-kubeletplugin cmd/power-dra-kubeletplugin/*.go
 
+.PHONY: controller-gen
 controller-gen: ## Download controller-gen locally if necessary.
 ifeq (, $(shell which controller-gen))
 	go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.14.0
@@ -32,6 +42,7 @@ else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
 
+.PHONY: generate
 generate: controller-gen
 	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./..."
 
@@ -66,23 +77,39 @@ CLI_VERSION_PACKAGE = $(MODULE)/internal/info
 CMDS := $(patsubst ./cmd/%/,%,$(sort $(dir $(wildcard ./cmd/*/))))
 CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
 
+.PHONY: binaries
 binaries: cmds
 ifneq ($(PREFIX),)
 cmd-%: COMMAND_BUILD_OPTIONS = -o $(PREFIX)/$(*)
 endif
+
+.PHONY: cmds
 cmds: $(CMD_TARGETS)
 $(CMD_TARGETS): cmd-%:
 	CGO_LDFLAGS_ALLOW='-Wl,--unresolved-symbols=ignore-in-object-files' \
 		CC=$(CC) CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH) \
 		go build -ldflags "-s -w -X $(CLI_VERSION_PACKAGE).gitCommit=$(GIT_COMMIT) -X $(CLI_VERSION_PACKAGE).version=$(VERSION)" $(COMMAND_BUILD_OPTIONS) $(MODULE)/cmd/$(*)
 
+########################################################################
+# Testing Targets
+
+.PHONY: dev-install-kind
+dev-install-kind:
+	mkdir -p dev-cache
+	GOBIN=$(PWD)/dev-cache/ go install sigs.k8s.io/kind@v0.29.0
+
 .PHONY: dev-setup
-dev-setup:
-	dev/setup.sh
+dev-setup: dev-install-kind
+	KIND_EXPERIMENTAL_PROVIDER=$(KIND_EXPERIMENTAL_PROVIDER) dev-cache/kind create cluster \
+		--image $(KIND_IMAGE) \
+		--name $(KIND_CLUSTER_NAME) \
+		--config $(KIND_CLUSTER_CONFIG_PATH) \
+		--wait 5m
 
 .PHONY: dev-clean
-dev-clean:
-	dev/teardown.sh
+dev-teardown:
+	dev-cache/kind delete cluster \
+		--name $(KIND_CLUSTER_NAME)
 
 ########################################################################
 # Container Targets

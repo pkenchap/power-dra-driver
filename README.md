@@ -21,8 +21,9 @@ You should also be using an OpenShift Container Platform 4.19+.
 ## Kind cluster
 
 To use the kind cluster in the power arch machine, run the script to create the kind cluster with single worker node.
+
 ``` shell
-./dev/setup.sh
+ARCH=arm64 make dev-setup
 ```
 
 ## Install
@@ -50,7 +51,7 @@ helm uninstall power-dra-driver -n power-dra-driver
 To delete the kind cluster created , run the script to delete it.
 
 ``` shell
-./dev/teardown.sh
+ARCH=arm64 make dev-teardown
 ```
 
 ## License
