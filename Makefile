@@ -38,9 +38,9 @@ build: fmt vet
 controller-gen: ## Download controller-gen locally if necessary.
 ifeq (, $(shell which controller-gen))
 	go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.14.0
-CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
+	CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 else
-CONTROLLER_GEN=$(shell which controller-gen)
+	CONTROLLER_GEN=$(shell which controller-gen)
 endif
 
 .PHONY: generate
