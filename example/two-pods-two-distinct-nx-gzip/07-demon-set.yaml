@@ -14,6 +14,8 @@ spec:
       labels:
         app: nx-device-plugin
     spec:
+      serviceAccount: ex-sa
+      serviceAccountName: ex-sa
       securityContext:
         fsGroup: 0
       containers:

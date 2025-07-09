@@ -1,0 +1,34 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: resourceslices.resource.k8s.io
+  annotations:
+    "api-approved.kubernetes.io": "https://github.com/kubernetes/kubernetes/pull/78458"
+spec:
+  group: resource.k8s.io
+  names:
+    kind: ResourceSlice
+    listKind: ResourceSliceList
+    plural: resourceslices
+    singular: resourceslice
+  scope: Cluster
+  versions:
+    - name: v1beta1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                resources:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      resourceName:
+                        type: string

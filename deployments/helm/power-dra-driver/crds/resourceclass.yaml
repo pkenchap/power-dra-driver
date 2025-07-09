@@ -1,0 +1,6 @@
+apiVersion: resource.k8s.io/v1beta1
+kind: ResourceClass
+metadata:
+  name: nx.device.power.ibm.com
+spec:
+  driverName: nx.device.power.ibm.com

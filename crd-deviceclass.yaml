@@ -1,0 +1,37 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: deviceclass.resource.k8s.io
+  annotations:
+    "api-approved.kubernetes.io": "https://github.com/kubernetes/enhancements/pull/1111"
+spec:
+  group: resource.k8s.io
+  names:
+    kind: DeviceClass
+    listKind: DeviceClassList
+    plural: deviceclass
+    singular: deviceclass
+  scope: Cluster
+  versions:
+    - name: v1alpha3
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                selectors:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      cel:
+                        type: object
+                        properties:
+                          expression:
+                            type: string
+      subresources:
+        status: {}
