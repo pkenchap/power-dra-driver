@@ -114,6 +114,30 @@ dev-teardown:
 		--name $(KIND_CLUSTER_NAME)
 
 ########################################################################
+# Configuration for IBM Development only
+
+.PHONY: dev-config-linux
+dev-config-linux: dev-stop-linux-named dev-stop-linux-haproxy
+
+.PHONY: dev-stop-linux-named
+dev-stop-linux-named:
+	ifneq("inactive",$(systemctl is-failed named))
+		systemctl stop named
+	end
+
+.PHONY: dev-stop-linux-haproxy
+dev-stop-linux-haproxy:
+	ifneq("inactive",$(systemctl is-failed haproxy))
+		systemctl stop haproxy
+	end
+
+.PHONY: dev-config-linux-resolv
+dev-config-linux-resolv:
+	ifeq("", $(grep 10.0.10.4 /etc/resolv.conf))
+		echo "nameserver 10.0.10.4" >> /etc/resolv.conf
+	end
+
+########################################################################
 # Container Targets
 
 .PHONY: image-build
