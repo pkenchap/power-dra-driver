@@ -20,9 +20,9 @@ GIT_COMMIT ?= $(shell git describe --match="" --dirty --long --always --abbrev=4
 
 # Kind configuration
 ifeq ($(ARCH),ppc64le)
-  KIND_IMAGE := quay.io/powercloud/kind-node:v1.33.1
+	KIND_IMAGE := quay.io/powercloud/kind-node:v1.33.1
 else
-  KIND_IMAGE := docker.io/kindest/node:latest
+	KIND_IMAGE := docker.io/kindest/node:v1.33.1
 endif
 
 KIND_CLUSTER_NAME:="power-dra-driver-cluster"
@@ -39,10 +39,10 @@ CONTROLLER_GEN := $(shell which controller-gen 2>/dev/null || echo "$$(go env GO
 
 .PHONY: controller-gen
 controller-gen:
-    @if [ ! -x "$(CONTROLLER_GEN)" ]; then \
-        echo "Installing controller-gen..."; \
-        go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.14.0; \
-    fi
+	@if [ ! -x "$(CONTROLLER_GEN)" ]; then \
+		echo "Installing controller-gen..."; \
+		go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.14.0; \
+	fi
 
 .PHONY: generate
 generate: controller-gen
