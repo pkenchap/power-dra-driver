@@ -121,19 +121,19 @@ dev-config-linux: dev-stop-linux-named dev-stop-linux-haproxy
 
 .PHONY: dev-stop-linux-named
 dev-stop-linux-named:
-	ifneq("inactive",$(systemctl is-failed named))
+	ifneq("inactive","$(shell systemctl is-failed named)")
 		systemctl stop named
 	end
 
 .PHONY: dev-stop-linux-haproxy
 dev-stop-linux-haproxy:
-	ifneq("inactive",$(systemctl is-failed haproxy))
+	ifneq("inactive","$(shell systemctl is-failed haproxy)")
 		systemctl stop haproxy
 	end
 
 .PHONY: dev-config-linux-resolv
 dev-config-linux-resolv:
-	ifeq("", $(grep 10.0.10.4 /etc/resolv.conf))
+	ifeq("", "$(shell grep 10.0.10.4 /etc/resolv.conf)")
 		echo "nameserver 10.0.10.4" >> /etc/resolv.conf
 	end
 
