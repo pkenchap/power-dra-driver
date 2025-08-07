@@ -117,25 +117,25 @@ dev-teardown:
 # Configuration for IBM Development only
 
 .PHONY: dev-config-linux
-dev-config-linux: dev-stop-linux-named dev-stop-linux-haproxy
+dev-config-linux: dev-stop-linux-named dev-stop-linux-haproxy dev-config-linux-resolv
 
 .PHONY: dev-stop-linux-named
 dev-stop-linux-named:
-	ifneq("inactive","$(shell systemctl is-failed named)")
-		systemctl stop named
-	end
+	ifneq ("inactive", "$(shell systemctl is-failed named)")
+		@systemctl stop named
+	endif
 
 .PHONY: dev-stop-linux-haproxy
 dev-stop-linux-haproxy:
-	ifneq("inactive","$(shell systemctl is-failed haproxy)")
-		systemctl stop haproxy
-	end
+	ifneq ("inactive","$(shell systemctl is-failed haproxy)")
+		@systemctl stop haproxy
+	endif
 
 .PHONY: dev-config-linux-resolv
 dev-config-linux-resolv:
-	ifeq("", "$(shell grep 10.0.10.4 /etc/resolv.conf)")
-		echo "nameserver 10.0.10.4" >> /etc/resolv.conf
-	end
+	ifneq ("", "$(shell grep 10.0.10.4 /etc/resolv.conf)")
+		@echo "nameserver 10.0.10.4" >> /etc/resolv.conf
+	endif
 
 ########################################################################
 # Container Targets
