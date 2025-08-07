@@ -1,5 +1,5 @@
 # This project applies to ppc64le only
-ARCH ?= "ppc64le"
+ARCH ?= ppc64le
 
 REGISTRY ?= quay.io/powercloud
 REPOSITORY ?= power-dra-driver
