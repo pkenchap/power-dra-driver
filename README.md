@@ -31,6 +31,18 @@ ARCH=arm64 make dev-setup
 To install the code, use:
 
 ``` shell
+helm install \
+  --create-namespace \
+  --namespace power-dra-driver \
+  power-dra-driver \
+  deployments/helm/power-dra-driver
+```
+
+## Upgrade
+
+To install the code, use:
+
+``` shell
 helm upgrade \
   --create-namespace \
   --namespace power-dra-driver \
