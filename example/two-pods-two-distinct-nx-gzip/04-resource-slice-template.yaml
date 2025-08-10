@@ -3,11 +3,6 @@ kind: ResourceSlice
 metadata:
   name: nx-gzip-slice-worker-0
   namespace: ex-dra-driver
-  ownerReferences:
-  - apiVersion: v1
-    kind: Node
-    name: worker-0
-    uid: 599f6e81-b968-4266-9421-9d5b1fc0a544
 spec:
   driver: nx.device.power.ibm.com
   nodeName: worker-0

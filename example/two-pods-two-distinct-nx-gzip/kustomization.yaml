@@ -15,4 +15,4 @@ resources:
 - 04-resource-slice-template.yaml
 - 05-deployment-first.yaml
 - 06-deployment-second.yaml
-- 07-demon-set.yaml
+- 07-daemonset.yaml
