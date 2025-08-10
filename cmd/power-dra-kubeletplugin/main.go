@@ -25,7 +25,6 @@ const (
 
 	PluginRegistrationPath     = "/var/lib/kubelet/plugins/" + DriverName + ".sock"
 	DriverPluginPath           = "/var/lib/kubelet/plugins/" + DriverName
-	DriverPluginSocketPath     = DriverPluginPath + "/plugin.sock"
 	DriverPluginCheckpointFile = "checkpoint.json"
 )
 
