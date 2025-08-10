@@ -44,7 +44,7 @@ To install the code, use:
 
 ``` shell
 helm upgrade \
-  --create-namespace \
+  -n power-dra-driver \
   --namespace power-dra-driver \
   power-dra-driver \
   deployments/helm/power-dra-driver
@@ -55,7 +55,9 @@ helm upgrade \
 To uninstall the code, use:
 
 ``` shell
-helm uninstall power-dra-driver -n power-dra-driver
+helm uninstall \
+    power-dra-driver \
+    -n power-dra-driver
 ```
 
 ## Delete the kind cluster
