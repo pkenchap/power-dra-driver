@@ -70,7 +70,7 @@ func newApp() *cli.App {
 		},
 		&cli.IntFlag{
 			Name:        "num-devices",
-			Usage:       "The number of devices to be generated.",
+			Usage:       "The number of pseudo devices to be generated.",
 			Value:       100,
 			Destination: &flags.numDevices,
 			EnvVars:     []string{"NUM_DEVICES"},

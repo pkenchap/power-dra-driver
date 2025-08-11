@@ -41,6 +41,8 @@ spec:
         command: ["power-dra-kubeletplugin"]
         resources:
           {{- toYaml .Values.kubeletPlugin.containers.plugin.resources | nindent 10 }}
+        args:
+          - "-v=100"
         env:
         - name: CDI_ROOT
           value: /var/run/cdi
@@ -56,9 +58,6 @@ spec:
           value: /var/lib/kubelet/plugins_registry
         - name: KUBELET_PLUGINS_DIRECTORY_PATH
           value: /var/lib/kubelet/plugins
-        # Simulated number of devices the driver will to have.
-        - name: NUM_DEVICES
-          value: "8"
         - name: GRPC_GO_LOG_VERBOSITY_LEVEL
           value: "99"
         - name: GRPC_GO_LOG_SEVERITY_LEVEL

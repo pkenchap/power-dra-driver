@@ -7,7 +7,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	cdiapi "tags.cncf.io/container-device-interface/pkg/cdi"
 	cdiparser "tags.cncf.io/container-device-interface/pkg/parser"
@@ -48,8 +47,13 @@ func (cdi *CDIHandler) CreateCommonSpecFile() error {
 				Name: cdiCommonDeviceName,
 				ContainerEdits: cdispec.ContainerEdits{
 					Env: []string{
-						fmt.Sprintf("KUBERNETES_NODE_NAME=%s", os.Getenv("NODE_NAME")),
-						fmt.Sprintf("DRA_RESOURCE_DRIVER_NAME=%s", DriverName),
+						"NX_DEVICE_CLAIM=added",
+					},
+					DeviceNodes: []*cdispec.DeviceNode{
+						{
+							Path:     "/dev/crypto/nx-gzip",
+							HostPath: "/dev/crypto/nx-gzip",
+						},
 					},
 				},
 			},
