@@ -28,7 +28,7 @@ func enumerateAllPossibleDevices(numNx int) (AllocatableDevices, error) {
 
 	// prepopulate with a single nx-gzip
 	device := resourceapi.Device{
-		Name: "crypto/nx-gzip",
+		Name: "crypto_nx_gzip",
 		Basic: &resourceapi.BasicDevice{
 			Attributes: map[resourceapi.QualifiedName]resourceapi.DeviceAttribute{
 				"index": {
