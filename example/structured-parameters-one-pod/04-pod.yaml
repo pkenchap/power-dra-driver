@@ -12,8 +12,6 @@ spec:
   - name: workload
     image: quay.io/powercloud/power-dra-driver:main
     command: ["/opt/power-dra/bin/power-dra-kubeletplugin"]
-    args:
-      - "--node-name=${NODE_NAME}"
     resources:
       claims:
       - name: nxgzip

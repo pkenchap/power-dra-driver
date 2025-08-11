@@ -7,6 +7,7 @@ package main
 
 import (
 	"os"
+	"strconv"
 
 	resourceapi "k8s.io/api/resource/v1beta1"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -15,9 +16,8 @@ import (
 )
 
 const CapsLocation = "/host-sys/devices/vio/ibm,compression-v1/nx_gzip_caps"
-const UpperLimit = "200"
-const Uuid = "b2ccae49-efdd-4d90-bc8e-6fec4a2b19f7"
 
+// Adds nx-gzip if capabilities are in DeviceTree
 func enumerateAllPossibleDevices(numNx int) (AllocatableDevices, error) {
 	alldevices := make(AllocatableDevices)
 
@@ -34,19 +34,10 @@ func enumerateAllPossibleDevices(numNx int) (AllocatableDevices, error) {
 				"index": {
 					IntValue: ptr.To(int64(0)),
 				},
-				"uuid": {
-					StringValue: ptr.To(Uuid),
-				},
-				"model": {
-					StringValue: ptr.To("LATEST-NX-MODEL"),
-				},
-				"driverVersion": {
-					VersionValue: ptr.To("0.1.0"),
-				},
 			},
 			Capacity: map[resourceapi.QualifiedName]resourceapi.DeviceCapacity{
 				"nxgzip": {
-					Value: resource.MustParse(UpperLimit),
+					Value: resource.MustParse(strconv.Itoa(numNx)),
 				},
 			},
 		},
@@ -54,14 +45,6 @@ func enumerateAllPossibleDevices(numNx int) (AllocatableDevices, error) {
 	alldevices[device.Name] = device
 
 	return alldevices, nil
-}
-
-func hash(s string) int64 {
-	h := int64(0)
-	for _, c := range s {
-		h = 31*h + int64(c)
-	}
-	return h
 }
 
 // Detect NXGZIPCAPS exists

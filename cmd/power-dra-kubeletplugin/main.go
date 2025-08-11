@@ -68,11 +68,10 @@ func newApp() *cli.App {
 			Destination: &flags.cdiRoot,
 			EnvVars:     []string{"CDI_ROOT"},
 		},
-		// TODO: The default number of devices from the ConfigMap
 		&cli.IntFlag{
 			Name:        "num-devices",
 			Usage:       "The number of devices to be generated.",
-			Value:       1000,
+			Value:       100,
 			Destination: &flags.numDevices,
 			EnvVars:     []string{"NUM_DEVICES"},
 		},
