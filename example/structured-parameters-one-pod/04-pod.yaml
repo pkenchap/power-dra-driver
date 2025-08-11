@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: ex-dra-driver
+  name: structured-parameters
+spec:
+  resourceClaims:
+  - name: "nxgzip"
+    resourceClaimTemplateName: nx-gzip-template
+  containers:
+  - name: workload
+    image: quay.io/powercloud/power-dra-driver:main
+    command: ["/opt/power-dra/bin/power-dra-kubeletplugin"]
+    args:
+      - "--node-name=${NODE_NAME}"
+    resources:
+      claims:
+      - name: nxgzip
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: false
+      runAsUser: 0
+      capabilities:
+        drop: ["ALL"]
+      seccompProfile:
+        type: RuntimeDefault

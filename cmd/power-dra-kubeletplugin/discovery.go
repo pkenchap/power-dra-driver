@@ -45,7 +45,7 @@ func enumerateAllPossibleDevices(numNx int) (AllocatableDevices, error) {
 				},
 			},
 			Capacity: map[resourceapi.QualifiedName]resourceapi.DeviceCapacity{
-				"nx-gzip": {
+				"nxgzip": {
 					Value: resource.MustParse(UpperLimit),
 				},
 			},

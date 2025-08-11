@@ -14,8 +14,8 @@ spec:
         app: ex-dra-driver
     spec:
       resourceClaims:
-      - name: nx-gzip
-        resourceClaimTemplateName: nx-gzip
+      - name: nxgzip
+        resourceClaimTemplateName: nx-gzip-template-1
       serviceAccount: ex-sa
       serviceAccountName: ex-sa
       containers:
@@ -27,7 +27,7 @@ spec:
           - "--node-name=worker-0"
         resources:
           claims:
-            - name: nx-gzip 
+            - name: nxgzip1
           limits:
             memory: 100Mi
           requests:

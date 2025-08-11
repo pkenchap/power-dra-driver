@@ -8,9 +8,8 @@ spec:
   spec:
     devices:
       requests:
-      - name: nx-gzip
+      - name: nxgzip
         deviceClassName: nx.device.power.ibm.com
-
 ---
 apiVersion: resource.k8s.io/v1alpha3
 kind: ResourceClaimTemplate

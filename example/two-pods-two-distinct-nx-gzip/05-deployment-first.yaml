@@ -14,8 +14,8 @@ spec:
         app: ex-dra-driver
     spec:
       resourceClaims:
-        - name: nx-gzip
-          resourceClaimTemplateName: nx-gzip
+        - name: nxgzip
+          resourceClaimTemplateName: nx-gzip-template-0
       containers:
       - name: driver
         image: quay.io/powercloud/power-dra-driver:main
@@ -30,7 +30,7 @@ spec:
             cpu: 100m
             memory: 100Mi
           claims:
-          - name: nx-gzip
+          - name: nxgzip0
         serviceAccount: ex-sa
         serviceAccountName: ex-sa
         securityContext:
