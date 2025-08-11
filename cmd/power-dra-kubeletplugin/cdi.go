@@ -76,7 +76,7 @@ func (cdi *CDIHandler) CreateClaimSpecFile(claimUID string, devices PreparedDevi
 	// Only one device is used for nx-gzip
 	deviceAdds := []cdispec.Device{
 		cdispec.Device{
-			Name: "cryptonxgzip",
+			Name: "crypto/nx-gzip",
 			// DeviceNodes: [
 			// 	{
 			// 		Path: "/dev/crypto/nx-gzip",
