@@ -1,21 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ex-dra-driver
+  name: ex-dra-driver-pri
   labels:
-    app: ex-dra-driver
+    app: ex-dra-driver-pri
 spec:
   selector:
     matchLabels:
-      app: ex-dra-driver
+      app: ex-dra-driver-pri
   template:
     metadata:
       labels:
-        app: ex-dra-driver
+        app: ex-dra-driver-pri
+        template: "0"
     spec:
       resourceClaims:
-        - name: nxgzip
-          resourceClaimTemplateName: nx-gzip-template-0
+      - name: nxgzip
+        resourceClaimTemplateName: nx-gzip-template-0
+      serviceAccount: ex-sa
+      serviceAccountName: ex-sa
       containers:
       - name: driver
         image: registry.access.redhat.com/ubi9/ubi:9.6
@@ -23,13 +26,13 @@ spec:
         command: ["bash", "-c"]
         args: ["export; trap 'exit 0' TERM; sleep 9999 & wait"]
         resources:
+          claims:
+            - name: nxgzip
           limits:
             memory: 100Mi
           requests:
             cpu: 100m
             memory: 100Mi
-          claims:
-          - name: nxgzip
         serviceAccount: ex-sa
         serviceAccountName: ex-sa
         securityContext:
@@ -41,7 +44,5 @@ spec:
           runAsNonRoot: true
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
-      serviceAccount: ex-sa
-      serviceAccountName: ex-sa
   updateStrategy:
     type: RollingUpdate

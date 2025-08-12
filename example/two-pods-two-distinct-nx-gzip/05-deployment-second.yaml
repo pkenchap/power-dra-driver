@@ -12,10 +12,11 @@ spec:
     metadata:
       labels:
         app: ex-dra-driver
+        template: "1"
     spec:
       resourceClaims:
       - name: nxgzip
-        resourceClaimTemplateName: nx-gzip-template-1
+        resourceClaimTemplateName: nx-gzip-template-0
       serviceAccount: ex-sa
       serviceAccountName: ex-sa
       containers:

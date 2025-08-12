@@ -2,23 +2,23 @@
 apiVersion: resource.k8s.io/v1alpha3
 kind: ResourceClaimTemplate
 metadata:
-  namespace: ex-dra-driver
   name: nx-gzip-template-0
+  namespace: ex-dra-driver
 spec:
   spec:
     devices:
       requests:
-      - name: nxgzip
+      - name: nxgzip0
         deviceClassName: nx.device.power.ibm.com
 ---
 apiVersion: resource.k8s.io/v1alpha3
 kind: ResourceClaimTemplate
 metadata:
-  namespace: ex-dra-driver
   name: nx-gzip-template-1
+  namespace: ex-dra-driver
 spec:
   spec:
     devices:
       requests:
-      - name: nxgzip
+      - name: nxgzip1
         deviceClassName: nx.device.power.ibm.com
