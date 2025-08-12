@@ -119,7 +119,7 @@ func (cdi *CDIHandler) GetClaimDevices(claimUID string, devices []string) []stri
 		cdiparser.QualifiedName(cdiVendor, cdiClass, cdiCommonDeviceName),
 	}
 
-	cdiDevice := cdiparser.QualifiedName(cdiVendor, cdiClass, "crypto/nx-gzip")
+	cdiDevice := cdiparser.QualifiedName(cdiVendor, cdiClass, "crypto-nx-gzip")
 	cdiDevices = append(cdiDevices, cdiDevice)
 
 	return cdiDevices
