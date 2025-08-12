@@ -10,8 +10,15 @@ spec:
     resourceClaimTemplateName: nx-gzip-template
   containers:
   - name: workload
-    image: quay.io/powercloud/power-dra-driver:main
-    command: ["/opt/power-dra/bin/power-dra-kubeletplugin"]
+    image: registry.access.redhat.com/ubi9/ubi:9.6
+    command: ["/bin/sleep"]
+    args:
+    - "infinity"
+    env:
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
     resources:
       claims:
       - name: nxgzip
