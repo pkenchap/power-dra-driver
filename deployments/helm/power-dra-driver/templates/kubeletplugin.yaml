@@ -42,7 +42,7 @@ spec:
         resources:
           {{- toYaml .Values.kubeletPlugin.containers.plugin.resources | nindent 10 }}
         args:
-          - "-v=100"
+          - "-v=1"
         env:
         - name: CDI_ROOT
           value: /var/run/cdi
