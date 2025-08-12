@@ -20,14 +20,13 @@ spec:
       serviceAccountName: ex-sa
       containers:
       - name: driver
-        image: quay.io/powercloud/power-dra-driver:main
+        image: registry.access.redhat.com/ubi9/ubi:9.6
         imagePullPolicy: IfNotPresent
-        command: ["/opt/power-dra/bin/power-dra-kubeletplugin"]
-        args:
-          - "--node-name=worker-0"
+        command: ["bash", "-c"]
+        args: ["export; trap 'exit 0' TERM; sleep 9999 & wait"]
         resources:
           claims:
-            - name: nxgzip1
+            - name: nxgzip
           limits:
             memory: 100Mi
           requests:

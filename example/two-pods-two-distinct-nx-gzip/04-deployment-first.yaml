@@ -18,11 +18,10 @@ spec:
           resourceClaimTemplateName: nx-gzip-template-0
       containers:
       - name: driver
-        image: quay.io/powercloud/power-dra-driver:main
+        image: registry.access.redhat.com/ubi9/ubi:9.6
         imagePullPolicy: IfNotPresent
-        command: ["/opt/power-dra/bin/power-dra-kubeletplugin"]
-        args:
-          - "--node-name=worker-0"
+        command: ["bash", "-c"]
+        args: ["export; trap 'exit 0' TERM; sleep 9999 & wait"]
         resources:
           limits:
             memory: 100Mi
@@ -30,7 +29,7 @@ spec:
             cpu: 100m
             memory: 100Mi
           claims:
-          - name: nxgzip0
+          - name: nxgzip
         serviceAccount: ex-sa
         serviceAccountName: ex-sa
         securityContext:
