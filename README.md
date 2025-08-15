@@ -1,6 +1,6 @@
 # Power Dynamic Resource Allocation Driver
 
-This repository contains a Power Architecture resource driver for use with the *Dynamic Resource Allocation (DRA)* feature of Kubernetes.
+This repository contains a Power Architecture dynamic resource allocation driver for use with the *Dynamic Resource Allocation (DRA)* feature of Kubernetes. The driver aligns with [KEP-4381: Dynamic Resource Allocation with Structured Parameters](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/4381-dra-structured-parameters/README.md) and assigns at most one device to one pod on the system.
 
 The driver facilitates access to:
 

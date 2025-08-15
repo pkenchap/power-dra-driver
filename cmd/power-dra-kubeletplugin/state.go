@@ -265,11 +265,11 @@ func (s *DeviceState) applyConfig(config *configapi.NxConfig, results []*resourc
 
 	for _, result := range results {
 		envs := []string{
-			fmt.Sprintf("Nx_DEVICE_%s=%s", result.Device[4:], result.Device),
+			fmt.Sprintf("NX_DEVICE=%s", result.Device),
 		}
 
 		if config.Sharing != nil {
-			envs = append(envs, fmt.Sprintf("Nx_DEVICE_%s_SHARING_STRATEGY=%s", result.Device[4:], config.Sharing.Strategy))
+			envs = append(envs, fmt.Sprintf("NX_DEVICE_SHARING_STRATEGY=%s", config.Sharing.Strategy))
 		}
 
 		switch {
@@ -278,13 +278,13 @@ func (s *DeviceState) applyConfig(config *configapi.NxConfig, results []*resourc
 			if err != nil {
 				return nil, fmt.Errorf("unable to get time slicing config for device %v: %w", result.Device, err)
 			}
-			envs = append(envs, fmt.Sprintf("Nx_DEVICE_%s_TIMESLICE_INTERVAL=%v", result.Device[4:], tsconfig.Interval))
+			envs = append(envs, fmt.Sprintf("NX_DEVICE_TIMESLICE_INTERVAL=%v", tsconfig.Interval))
 		case config.Sharing.IsSpacePartitioning():
 			spconfig, err := config.Sharing.GetSpacePartitioningConfig()
 			if err != nil {
 				return nil, fmt.Errorf("unable to get space partitioning config for device %v: %w", result.Device, err)
 			}
-			envs = append(envs, fmt.Sprintf("Nx_DEVICE_%s_PARTITION_COUNT=%v", result.Device[4:], spconfig.PartitionCount))
+			envs = append(envs, fmt.Sprintf("Nx_DEVICE_PARTITION_COUNT=%v", spconfig.PartitionCount))
 		}
 
 		edits := &cdispec.ContainerEdits{
