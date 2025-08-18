@@ -12,6 +12,7 @@ import (
 
 	resourceapi "k8s.io/api/resource/v1beta1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/klog/v2"
 	drapbv1 "k8s.io/kubelet/pkg/apis/dra/v1beta1"
 	"k8s.io/kubernetes/pkg/kubelet/checkpointmanager"
 
@@ -84,6 +85,7 @@ func NewDeviceState(config *Config) (*DeviceState, error) {
 	}
 
 	for _, c := range checkpoints {
+		klog.V(10).Infof("existing checkpoint: %v", c)
 		if c == DriverPluginCheckpointFile {
 			return state, nil
 		}
@@ -97,6 +99,7 @@ func NewDeviceState(config *Config) (*DeviceState, error) {
 	return state, nil
 }
 
+// prepareDevices prepares devices for the given claim.
 func (s *DeviceState) Prepare(claim *resourceapi.ResourceClaim) ([]*drapbv1.Device, error) {
 	s.Lock()
 	defer s.Unlock()
@@ -249,6 +252,7 @@ func (s *DeviceState) prepareDevices(claim *resourceapi.ResourceClaim) (Prepared
 				},
 				ContainerEdits: perDeviceCDIContainerEdits[result.Device],
 			}
+			klog.V(10).Infof("Device: %v", device)
 			preparedDevices = append(preparedDevices, device)
 		}
 	}

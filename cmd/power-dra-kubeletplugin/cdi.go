@@ -8,6 +8,7 @@ package main
 import (
 	"fmt"
 
+	"k8s.io/klog/v2"
 	cdiapi "tags.cncf.io/container-device-interface/pkg/cdi"
 	cdiparser "tags.cncf.io/container-device-interface/pkg/parser"
 	cdispec "tags.cncf.io/container-device-interface/specs-go"
@@ -120,6 +121,7 @@ func (cdi *CDIHandler) GetClaimDevices(claimUID string, devices []string) []stri
 	}
 
 	cdiDevice := cdiparser.QualifiedName(cdiVendor, cdiClass, "crypto-nx-gzip")
+	klog.V(10).Infof("cdi device: %v", cdiDevice)
 	cdiDevices = append(cdiDevices, cdiDevice)
 
 	return cdiDevices

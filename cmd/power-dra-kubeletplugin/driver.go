@@ -81,6 +81,7 @@ func (d *driver) PrepareResourceClaims(ctx context.Context, claims []*resourceap
 	klog.Infof("PrepareResourceClaims is called: number of claims: %d", len(claims))
 	result := make(map[types.UID]kubeletplugin.PrepareResult)
 
+	d.state.cdi.cache.Refresh()
 	for _, claim := range claims {
 		result[claim.UID] = d.prepareResourceClaim(ctx, claim)
 	}
@@ -112,6 +113,8 @@ func (d *driver) prepareResourceClaim(_ context.Context, claim *resourceapi.Reso
 func (d *driver) UnprepareResourceClaims(ctx context.Context, claims []kubeletplugin.NamespacedObject) (map[types.UID]error, error) {
 	klog.Infof("UnprepareResourceClaims is called: number of claims: %d", len(claims))
 	result := make(map[types.UID]error)
+
+	d.state.cdi.cache.Refresh()
 
 	for _, claim := range claims {
 		result[claim.UID] = d.unprepareResourceClaim(ctx, claim)
