@@ -120,7 +120,7 @@ func (cdi *CDIHandler) GetClaimDevices(claimUID string, devices []string) []stri
 		cdiparser.QualifiedName(cdiVendor, cdiClass, cdiCommonDeviceName),
 	}
 
-	cdiDevice := cdiparser.QualifiedName(cdiVendor, cdiClass, "crypto-nx-gzip")
+	cdiDevice := cdiparser.QualifiedName(cdiVendor, cdiClass, fmt.Sprintf("%s-%s", claimUID, "crypto-nx-gzip"))
 	klog.V(10).Infof("cdi device: %v", cdiDevice)
 	cdiDevices = append(cdiDevices, cdiDevice)
 
