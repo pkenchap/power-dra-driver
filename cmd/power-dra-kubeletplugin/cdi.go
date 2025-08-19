@@ -81,7 +81,7 @@ func (cdi *CDIHandler) CreateClaimSpecFile(claimUID string, devices PreparedDevi
 	// Only one device is used for nx-gzip
 	deviceAdds := []cdispec.Device{
 		{
-			Name: "crypto-nx-gzip",
+			Name: fmt.Sprintf("%s-%s", claimUID, "crypto-nx-gzip"),
 			ContainerEdits: cdispec.ContainerEdits{
 				Env: []string{
 					"NX_DEVICE_CLAIM=added",
